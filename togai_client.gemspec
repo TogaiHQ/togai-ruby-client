@@ -23,7 +23,7 @@ Gem::Specification.new do |s|
   s.email       = ["engg@togai.com"]
   s.homepage    = "https://github.com/TogaiHQ/togai-ruby-client"
   s.summary     = "Togai Apis Ruby Gem"
-  s.description = "A ruby client library for the Togai APIs"
+  s.description = "A ruby client library for Togai APIs"
   s.license     = "Unlicense"
   s.required_ruby_version = ">= 2.4"
 
