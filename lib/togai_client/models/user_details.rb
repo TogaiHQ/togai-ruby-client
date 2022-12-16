@@ -132,11 +132,6 @@ module TogaiClient
         invalid_properties.push('invalid value for "email", the character length must be smaller than or equal to 100.')
       end
 
-      pattern = Regexp.new(/^[A-Za-z0-9_+]{8,100}$/)
-      if @email !~ pattern
-        invalid_properties.push("invalid value for \"email\", must conform to the pattern #{pattern}.")
-      end
-
       if !@phone.nil? && @phone.to_s.length > 30
         invalid_properties.push('invalid value for "phone", the character length must be smaller than or equal to 30.')
       end
@@ -155,7 +150,6 @@ module TogaiClient
       return false if @password.to_s.length > 100
       return false if @email.nil?
       return false if @email.to_s.length > 100
-      return false if @email !~ Regexp.new(/^[A-Za-z0-9_+]{8,100}$/)
       return false if !@phone.nil? && @phone.to_s.length > 30
       true
     end
@@ -212,11 +206,6 @@ module TogaiClient
 
       if email.to_s.length > 100
         fail ArgumentError, 'invalid value for "email", the character length must be smaller than or equal to 100.'
-      end
-
-      pattern = Regexp.new(/^[A-Za-z0-9_+]{8,100}$/)
-      if email !~ pattern
-        fail ArgumentError, "invalid value for \"email\", must conform to the pattern #{pattern}."
       end
 
       @email = email

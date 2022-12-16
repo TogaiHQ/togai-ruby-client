@@ -12,7 +12,7 @@
 | **dimensions** | [**Array&lt;DimensionsSchema&gt;**](DimensionsSchema.md) |  | [optional] |
 | **created_at** | **Time** |  | [optional] |
 | **updated_at** | **Time** |  | [optional] |
-| **associated_usage_meters** | **Array&lt;String&gt;** |  | [optional] |
+| **usage_meters_count** | **Integer** |  | [optional] |
 
 ## Example
 
@@ -28,7 +28,7 @@ instance = TogaiClient::EventSchemaListData.new(
   dimensions: null,
   created_at: null,
   updated_at: null,
-  associated_usage_meters: null
+  usage_meters_count: null
 )
 ```
 

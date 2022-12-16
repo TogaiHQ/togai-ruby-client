@@ -5,8 +5,7 @@
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
 | **description** | **String** | Description of price plan | [optional] |
-| **pricing_cycle** | [**PricingCycle**](PricingCycle.md) |  | [optional] |
-| **rate_card** | [**RateCard**](RateCard.md) |  | [optional] |
+| **price_plan_details** | [**PricePlanDetailsOverride**](PricePlanDetailsOverride.md) |  | [optional] |
 
 ## Example
 
@@ -15,8 +14,7 @@ require 'togai_client'
 
 instance = TogaiClient::UpdatePricePlanRequest.new(
   description: null,
-  pricing_cycle: null,
-  rate_card: null
+  price_plan_details: null
 )
 ```
 

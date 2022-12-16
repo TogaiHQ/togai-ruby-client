@@ -6,8 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **name** | **String** | Name of the price plan |  |
 | **description** | **String** | Description of price plan | [optional] |
-| **pricing_cycle** | [**PricingCycle**](PricingCycle.md) |  |  |
-| **rate_card** | [**RateCard**](RateCard.md) |  |  |
+| **price_plan_details** | [**PricePlanDetails**](PricePlanDetails.md) |  |  |
 
 ## Example
 
@@ -17,8 +16,7 @@ require 'togai_client'
 instance = TogaiClient::CreatePricePlanRequest.new(
   name: null,
   description: null,
-  pricing_cycle: null,
-  rate_card: null
+  price_plan_details: null
 )
 ```
 

@@ -178,10 +178,6 @@ module TogaiClient
         invalid_properties.push('invalid value for "billing_address", the character length must be smaller than or equal to 1000.')
       end
 
-      if @billing_address.to_s.length < 50
-        invalid_properties.push('invalid value for "billing_address", the character length must be great than or equal to 50.')
-      end
-
       if @status.nil?
         invalid_properties.push('invalid value for "status", status cannot be nil.')
       end
@@ -209,7 +205,6 @@ module TogaiClient
       return false if @primary_email.to_s.length > 255
       return false if @billing_address.nil?
       return false if @billing_address.to_s.length > 1000
-      return false if @billing_address.to_s.length < 50
       return false if @status.nil?
       status_validator = EnumAttributeValidator.new('String', ["ACTIVE", "ARCHIVED"])
       return false unless status_validator.valid?(@status)
@@ -273,10 +268,6 @@ module TogaiClient
 
       if billing_address.to_s.length > 1000
         fail ArgumentError, 'invalid value for "billing_address", the character length must be smaller than or equal to 1000.'
-      end
-
-      if billing_address.to_s.length < 50
-        fail ArgumentError, 'invalid value for "billing_address", the character length must be great than or equal to 50.'
       end
 
       @billing_address = billing_address

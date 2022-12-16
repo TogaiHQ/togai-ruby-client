@@ -109,7 +109,7 @@ end
 api_instance = TogaiClient::AccountsApi.new
 customer_id = 'customer_id_example' # String | 
 account_id = 'account_id_example' # String | 
-associate_price_plan_request = TogaiClient::AssociatePricePlanRequest.new({price_plan_name: 'price_plan_name_example'}) # AssociatePricePlanRequest | Payload to associate a price plan to an account
+associate_price_plan_request = TogaiClient::AssociatePricePlanRequest.new({price_plan_name: 'price_plan_name_example', effective_from: Date.today, effective_until: Date.today}) # AssociatePricePlanRequest | Payload to associate a price plan to an account
 
 begin
   # Associate a plan to an account

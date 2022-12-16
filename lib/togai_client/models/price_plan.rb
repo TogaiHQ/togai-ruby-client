@@ -25,8 +25,6 @@ module TogaiClient
     # Status of Price plan
     attr_accessor :status
 
-    attr_accessor :pricing_cycle
-
     attr_accessor :pricing_schedule
 
     class EnumAttributeValidator
@@ -57,7 +55,6 @@ module TogaiClient
         :'name' => :'name',
         :'description' => :'description',
         :'status' => :'status',
-        :'pricing_cycle' => :'pricingCycle',
         :'pricing_schedule' => :'pricingSchedule'
       }
     end
@@ -73,7 +70,6 @@ module TogaiClient
         :'name' => :'String',
         :'description' => :'String',
         :'status' => :'String',
-        :'pricing_cycle' => :'PricingCycle',
         :'pricing_schedule' => :'Array<PricingSchedule>'
       }
     end
@@ -111,10 +107,6 @@ module TogaiClient
         self.status = attributes[:'status']
       end
 
-      if attributes.key?(:'pricing_cycle')
-        self.pricing_cycle = attributes[:'pricing_cycle']
-      end
-
       if attributes.key?(:'pricing_schedule')
         if (value = attributes[:'pricing_schedule']).is_a?(Array)
           self.pricing_schedule = value
@@ -142,10 +134,6 @@ module TogaiClient
         invalid_properties.push('invalid value for "status", status cannot be nil.')
       end
 
-      if @pricing_cycle.nil?
-        invalid_properties.push('invalid value for "pricing_cycle", pricing_cycle cannot be nil.')
-      end
-
       if @pricing_schedule.nil?
         invalid_properties.push('invalid value for "pricing_schedule", pricing_schedule cannot be nil.')
       end
@@ -162,7 +150,6 @@ module TogaiClient
       return false if @status.nil?
       status_validator = EnumAttributeValidator.new('String', ["DRAFT", "ACTIVE", "ARCHIVED"])
       return false unless status_validator.valid?(@status)
-      return false if @pricing_cycle.nil?
       return false if @pricing_schedule.nil?
       true
     end
@@ -209,7 +196,6 @@ module TogaiClient
           name == o.name &&
           description == o.description &&
           status == o.status &&
-          pricing_cycle == o.pricing_cycle &&
           pricing_schedule == o.pricing_schedule
     end
 
@@ -222,7 +208,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, description, status, pricing_cycle, pricing_schedule].hash
+      [name, description, status, pricing_schedule].hash
     end
 
     # Builds the object from hash

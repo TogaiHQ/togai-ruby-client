@@ -14,45 +14,26 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Represents rate card of a price plan of usage type
-  class RateCardUsageValue
-    attr_accessor :name
+  # Represents a pricing priceType (rates + slabs) for usage price plan
+  class SlabUsage
+    attr_accessor :rate
 
-    attr_accessor :rate_strategy
+    attr_accessor :start_after
 
-    attr_accessor :slab_strategy
+    attr_accessor :price_type
 
-    attr_accessor :slabs
+    attr_accessor :config
 
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :order
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'rate_strategy' => :'rateStrategy',
-        :'slab_strategy' => :'slabStrategy',
-        :'slabs' => :'slabs'
+        :'rate' => :'rate',
+        :'start_after' => :'startAfter',
+        :'price_type' => :'priceType',
+        :'config' => :'config',
+        :'order' => :'order'
       }
     end
 
@@ -64,10 +45,11 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'name' => :'String',
-        :'rate_strategy' => :'String',
-        :'slab_strategy' => :'String',
-        :'slabs' => :'Array<UsageStrategy>'
+        :'rate' => :'Float',
+        :'start_after' => :'Float',
+        :'price_type' => :'PriceType',
+        :'config' => :'Hash<String, String>',
+        :'order' => :'Integer'
       }
     end
 
@@ -81,33 +63,37 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::RateCardUsageValue` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::SlabUsage` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::RateCardUsageValue`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::SlabUsage`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.key?(:'rate')
+        self.rate = attributes[:'rate']
       end
 
-      if attributes.key?(:'rate_strategy')
-        self.rate_strategy = attributes[:'rate_strategy']
+      if attributes.key?(:'start_after')
+        self.start_after = attributes[:'start_after']
       end
 
-      if attributes.key?(:'slab_strategy')
-        self.slab_strategy = attributes[:'slab_strategy']
+      if attributes.key?(:'price_type')
+        self.price_type = attributes[:'price_type']
       end
 
-      if attributes.key?(:'slabs')
-        if (value = attributes[:'slabs']).is_a?(Array)
-          self.slabs = value
+      if attributes.key?(:'config')
+        if (value = attributes[:'config']).is_a?(Hash)
+          self.config = value
         end
+      end
+
+      if attributes.key?(:'order')
+        self.order = attributes[:'order']
       end
     end
 
@@ -115,28 +101,28 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @name.nil?
-        invalid_properties.push('invalid value for "name", name cannot be nil.')
+      if @rate.nil?
+        invalid_properties.push('invalid value for "rate", rate cannot be nil.')
       end
 
-      if @rate_strategy.nil?
-        invalid_properties.push('invalid value for "rate_strategy", rate_strategy cannot be nil.')
+      if @start_after.nil?
+        invalid_properties.push('invalid value for "start_after", start_after cannot be nil.')
       end
 
-      if @slab_strategy.nil?
-        invalid_properties.push('invalid value for "slab_strategy", slab_strategy cannot be nil.')
+      if @price_type.nil?
+        invalid_properties.push('invalid value for "price_type", price_type cannot be nil.')
       end
 
-      if @slabs.nil?
-        invalid_properties.push('invalid value for "slabs", slabs cannot be nil.')
+      if @order.nil?
+        invalid_properties.push('invalid value for "order", order cannot be nil.')
       end
 
-      if @slabs.length > 10
-        invalid_properties.push('invalid value for "slabs", number of items must be less than or equal to 10.')
+      if @order > 10
+        invalid_properties.push('invalid value for "order", must be smaller than or equal to 10.')
       end
 
-      if @slabs.length < 1
-        invalid_properties.push('invalid value for "slabs", number of items must be greater than or equal to 1.')
+      if @order < 1
+        invalid_properties.push('invalid value for "order", must be greater than or equal to 1.')
       end
 
       invalid_properties
@@ -145,55 +131,31 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @name.nil?
-      return false if @rate_strategy.nil?
-      rate_strategy_validator = EnumAttributeValidator.new('String', ["FLAT", "PER_UNIT"])
-      return false unless rate_strategy_validator.valid?(@rate_strategy)
-      return false if @slab_strategy.nil?
-      slab_strategy_validator = EnumAttributeValidator.new('String', ["TIER"])
-      return false unless slab_strategy_validator.valid?(@slab_strategy)
-      return false if @slabs.nil?
-      return false if @slabs.length > 10
-      return false if @slabs.length < 1
+      return false if @rate.nil?
+      return false if @start_after.nil?
+      return false if @price_type.nil?
+      return false if @order.nil?
+      return false if @order > 10
+      return false if @order < 1
       true
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] rate_strategy Object to be assigned
-    def rate_strategy=(rate_strategy)
-      validator = EnumAttributeValidator.new('String', ["FLAT", "PER_UNIT"])
-      unless validator.valid?(rate_strategy)
-        fail ArgumentError, "invalid value for \"rate_strategy\", must be one of #{validator.allowable_values}."
-      end
-      @rate_strategy = rate_strategy
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] slab_strategy Object to be assigned
-    def slab_strategy=(slab_strategy)
-      validator = EnumAttributeValidator.new('String', ["TIER"])
-      unless validator.valid?(slab_strategy)
-        fail ArgumentError, "invalid value for \"slab_strategy\", must be one of #{validator.allowable_values}."
-      end
-      @slab_strategy = slab_strategy
-    end
-
     # Custom attribute writer method with validation
-    # @param [Object] slabs Value to be assigned
-    def slabs=(slabs)
-      if slabs.nil?
-        fail ArgumentError, 'slabs cannot be nil'
+    # @param [Object] order Value to be assigned
+    def order=(order)
+      if order.nil?
+        fail ArgumentError, 'order cannot be nil'
       end
 
-      if slabs.length > 10
-        fail ArgumentError, 'invalid value for "slabs", number of items must be less than or equal to 10.'
+      if order > 10
+        fail ArgumentError, 'invalid value for "order", must be smaller than or equal to 10.'
       end
 
-      if slabs.length < 1
-        fail ArgumentError, 'invalid value for "slabs", number of items must be greater than or equal to 1.'
+      if order < 1
+        fail ArgumentError, 'invalid value for "order", must be greater than or equal to 1.'
       end
 
-      @slabs = slabs
+      @order = order
     end
 
     # Checks equality by comparing each attribute.
@@ -201,10 +163,11 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          rate_strategy == o.rate_strategy &&
-          slab_strategy == o.slab_strategy &&
-          slabs == o.slabs
+          rate == o.rate &&
+          start_after == o.start_after &&
+          price_type == o.price_type &&
+          config == o.config &&
+          order == o.order
     end
 
     # @see the `==` method
@@ -216,7 +179,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, rate_strategy, slab_strategy, slabs].hash
+      [rate, start_after, price_type, config, order].hash
     end
 
     # Builds the object from hash

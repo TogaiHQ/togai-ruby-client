@@ -35,7 +35,7 @@ module TogaiClient
 
     attr_accessor :updated_at
 
-    attr_accessor :associated_usage_meters
+    attr_accessor :usage_meters_count
 
     class EnumAttributeValidator
       attr_reader :datatype
@@ -70,7 +70,7 @@ module TogaiClient
         :'dimensions' => :'dimensions',
         :'created_at' => :'createdAt',
         :'updated_at' => :'updatedAt',
-        :'associated_usage_meters' => :'associatedUsageMeters'
+        :'usage_meters_count' => :'usageMetersCount'
       }
     end
 
@@ -90,7 +90,7 @@ module TogaiClient
         :'dimensions' => :'Array<DimensionsSchema>',
         :'created_at' => :'Time',
         :'updated_at' => :'Time',
-        :'associated_usage_meters' => :'Array<String>'
+        :'usage_meters_count' => :'Integer'
       }
     end
 
@@ -159,10 +159,8 @@ module TogaiClient
         self.updated_at = attributes[:'updated_at']
       end
 
-      if attributes.key?(:'associated_usage_meters')
-        if (value = attributes[:'associated_usage_meters']).is_a?(Array)
-          self.associated_usage_meters = value
-        end
+      if attributes.key?(:'usage_meters_count')
+        self.usage_meters_count = attributes[:'usage_meters_count']
       end
     end
 
@@ -317,7 +315,7 @@ module TogaiClient
           dimensions == o.dimensions &&
           created_at == o.created_at &&
           updated_at == o.updated_at &&
-          associated_usage_meters == o.associated_usage_meters
+          usage_meters_count == o.usage_meters_count
     end
 
     # @see the `==` method
@@ -329,7 +327,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, description, version, status, attributes, dimensions, created_at, updated_at, associated_usage_meters].hash
+      [name, description, version, status, attributes, dimensions, created_at, updated_at, usage_meters_count].hash
     end
 
     # Builds the object from hash

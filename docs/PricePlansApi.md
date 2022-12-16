@@ -100,7 +100,7 @@ TogaiClient.configure do |config|
 end
 
 api_instance = TogaiClient::PricePlansApi.new
-create_price_plan_request = TogaiClient::CreatePricePlanRequest.new({name: 'name_example', pricing_cycle: TogaiClient::PricingCycle.new({interval: 'MONTHLY', start_type: 'STATIC', start_offset: TogaiClient::PricingCycleStartOffset.new({day_offset: 'day_offset_example', month_offset: 'month_offset_example'}), grace_period: 3}), rate_card: TogaiClient::RateCard.new({type: 'USAGE'})}) # CreatePricePlanRequest | Payload to create price plan
+create_price_plan_request = TogaiClient::CreatePricePlanRequest.new({name: 'name_example', price_plan_details: TogaiClient::PricePlanDetails.new({pricing_cycle_config: TogaiClient::PricingCycleConfig.new({interval: 'MONTHLY', start_type: 'STATIC', start_offset: TogaiClient::PricingCycleConfigStartOffset.new({day_offset: 'day_offset_example', month_offset: 'month_offset_example'}), grace_period: 3}), rate_cards: [TogaiClient::RateCard.new({display_name: 'display_name_example', pricing_model: TogaiClient::PricingModel::TIERED, rate_config: TogaiClient::RateConfigUsage.new({usage_meter_name: 'usage_meter_name_example', slabs: [TogaiClient::SlabUsage.new({rate: 3.56, start_after: 3.56, price_type: TogaiClient::PriceType::FLAT, order: 37})]})})]})}) # CreatePricePlanRequest | Payload to create price plan
 
 begin
   # Create a price plan

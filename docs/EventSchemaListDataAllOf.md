@@ -4,7 +4,7 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **associated_usage_meters** | **Array&lt;String&gt;** |  | [optional] |
+| **usage_meters_count** | **Integer** |  | [optional] |
 
 ## Example
 
@@ -12,7 +12,7 @@
 require 'togai_client'
 
 instance = TogaiClient::EventSchemaListDataAllOf.new(
-  associated_usage_meters: null
+  usage_meters_count: null
 )
 ```
 

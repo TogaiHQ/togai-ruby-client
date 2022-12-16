@@ -18,7 +18,7 @@ module TogaiClient
   class PlanOverride
     attr_accessor :price_plan_name
 
-    attr_accessor :override
+    attr_accessor :price_plan_details_override
 
     attr_accessor :start_date
 
@@ -28,7 +28,7 @@ module TogaiClient
     def self.attribute_map
       {
         :'price_plan_name' => :'pricePlanName',
-        :'override' => :'override',
+        :'price_plan_details_override' => :'pricePlanDetailsOverride',
         :'start_date' => :'startDate',
         :'end_date' => :'endDate'
       }
@@ -43,7 +43,7 @@ module TogaiClient
     def self.openapi_types
       {
         :'price_plan_name' => :'String',
-        :'override' => :'RateCard',
+        :'price_plan_details_override' => :'PricePlanDetailsOverride',
         :'start_date' => :'Time',
         :'end_date' => :'Time'
       }
@@ -74,8 +74,8 @@ module TogaiClient
         self.price_plan_name = attributes[:'price_plan_name']
       end
 
-      if attributes.key?(:'override')
-        self.override = attributes[:'override']
+      if attributes.key?(:'price_plan_details_override')
+        self.price_plan_details_override = attributes[:'price_plan_details_override']
       end
 
       if attributes.key?(:'start_date')
@@ -121,7 +121,7 @@ module TogaiClient
       return true if self.equal?(o)
       self.class == o.class &&
           price_plan_name == o.price_plan_name &&
-          override == o.override &&
+          price_plan_details_override == o.price_plan_details_override &&
           start_date == o.start_date &&
           end_date == o.end_date
     end
@@ -135,7 +135,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [price_plan_name, override, start_date, end_date].hash
+      [price_plan_name, price_plan_details_override, start_date, end_date].hash
     end
 
     # Builds the object from hash

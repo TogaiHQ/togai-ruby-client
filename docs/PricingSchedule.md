@@ -4,7 +4,7 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **rate_payload** | [**RateCard**](RateCard.md) |  | [optional] |
+| **price_plan_details** | [**PricePlanDetails**](PricePlanDetails.md) |  | [optional] |
 | **start_date** | **Time** |  |  |
 | **end_date** | **Time** |  |  |
 
@@ -14,7 +14,7 @@
 require 'togai_client'
 
 instance = TogaiClient::PricingSchedule.new(
-  rate_payload: null,
+  price_plan_details: null,
   start_date: null,
   end_date: null
 )

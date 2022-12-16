@@ -4,9 +4,9 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **type** | **String** |  |  |
-| **usage_config** | [**Hash&lt;String, RateCardUsageValue&gt;**](RateCardUsageValue.md) |  | [optional] |
-| **bundle_config** | [**RateCardBundle**](RateCardBundle.md) |  | [optional] |
+| **display_name** | **String** |  |  |
+| **pricing_model** | [**PricingModel**](PricingModel.md) |  |  |
+| **rate_config** | [**RateConfigUsage**](RateConfigUsage.md) |  |  |
 
 ## Example
 
@@ -14,9 +14,9 @@
 require 'togai_client'
 
 instance = TogaiClient::RateCard.new(
-  type: null,
-  usage_config: null,
-  bundle_config: null
+  display_name: null,
+  pricing_model: null,
+  rate_config: null
 )
 ```
 

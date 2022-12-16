@@ -14,23 +14,16 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Represents a pricing strategy (rates + slabs) for bundle price plan
-  class BundleStrategy
-    attr_accessor :name
+  class PricePlanDetails
+    attr_accessor :pricing_cycle_config
 
-    attr_accessor :rate
-
-    attr_accessor :order
-
-    attr_accessor :usage_meters
+    attr_accessor :rate_cards
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'name' => :'name',
-        :'rate' => :'rate',
-        :'order' => :'order',
-        :'usage_meters' => :'usageMeters'
+        :'pricing_cycle_config' => :'pricingCycleConfig',
+        :'rate_cards' => :'rateCards'
       }
     end
 
@@ -42,10 +35,8 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'name' => :'String',
-        :'rate' => :'Float',
-        :'order' => :'Integer',
-        :'usage_meters' => :'Hash<String, BundleStrategyUsageMetersValue>'
+        :'pricing_cycle_config' => :'PricingCycleConfig',
+        :'rate_cards' => :'Array<RateCard>'
       }
     end
 
@@ -59,32 +50,24 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::BundleStrategy` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::PricePlanDetails` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::BundleStrategy`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::PricePlanDetails`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'name')
-        self.name = attributes[:'name']
+      if attributes.key?(:'pricing_cycle_config')
+        self.pricing_cycle_config = attributes[:'pricing_cycle_config']
       end
 
-      if attributes.key?(:'rate')
-        self.rate = attributes[:'rate']
-      end
-
-      if attributes.key?(:'order')
-        self.order = attributes[:'order']
-      end
-
-      if attributes.key?(:'usage_meters')
-        if (value = attributes[:'usage_meters']).is_a?(Hash)
-          self.usage_meters = value
+      if attributes.key?(:'rate_cards')
+        if (value = attributes[:'rate_cards']).is_a?(Array)
+          self.rate_cards = value
         end
       end
     end
@@ -93,36 +76,16 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @name.nil?
-        invalid_properties.push('invalid value for "name", name cannot be nil.')
+      if @pricing_cycle_config.nil?
+        invalid_properties.push('invalid value for "pricing_cycle_config", pricing_cycle_config cannot be nil.')
       end
 
-      if @name.to_s.length > 50
-        invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 50.')
+      if @rate_cards.nil?
+        invalid_properties.push('invalid value for "rate_cards", rate_cards cannot be nil.')
       end
 
-      if @name.to_s.length < 3
-        invalid_properties.push('invalid value for "name", the character length must be great than or equal to 3.')
-      end
-
-      if @rate.nil?
-        invalid_properties.push('invalid value for "rate", rate cannot be nil.')
-      end
-
-      if @order.nil?
-        invalid_properties.push('invalid value for "order", order cannot be nil.')
-      end
-
-      if @order > 10
-        invalid_properties.push('invalid value for "order", must be smaller than or equal to 10.')
-      end
-
-      if @order < 1
-        invalid_properties.push('invalid value for "order", must be greater than or equal to 1.')
-      end
-
-      if @usage_meters.nil?
-        invalid_properties.push('invalid value for "usage_meters", usage_meters cannot be nil.')
+      if @rate_cards.length < 1
+        invalid_properties.push('invalid value for "rate_cards", number of items must be greater than or equal to 1.')
       end
 
       invalid_properties
@@ -131,51 +94,24 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @name.nil?
-      return false if @name.to_s.length > 50
-      return false if @name.to_s.length < 3
-      return false if @rate.nil?
-      return false if @order.nil?
-      return false if @order > 10
-      return false if @order < 1
-      return false if @usage_meters.nil?
+      return false if @pricing_cycle_config.nil?
+      return false if @rate_cards.nil?
+      return false if @rate_cards.length < 1
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] name Value to be assigned
-    def name=(name)
-      if name.nil?
-        fail ArgumentError, 'name cannot be nil'
+    # @param [Object] rate_cards Value to be assigned
+    def rate_cards=(rate_cards)
+      if rate_cards.nil?
+        fail ArgumentError, 'rate_cards cannot be nil'
       end
 
-      if name.to_s.length > 50
-        fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 50.'
+      if rate_cards.length < 1
+        fail ArgumentError, 'invalid value for "rate_cards", number of items must be greater than or equal to 1.'
       end
 
-      if name.to_s.length < 3
-        fail ArgumentError, 'invalid value for "name", the character length must be great than or equal to 3.'
-      end
-
-      @name = name
-    end
-
-    # Custom attribute writer method with validation
-    # @param [Object] order Value to be assigned
-    def order=(order)
-      if order.nil?
-        fail ArgumentError, 'order cannot be nil'
-      end
-
-      if order > 10
-        fail ArgumentError, 'invalid value for "order", must be smaller than or equal to 10.'
-      end
-
-      if order < 1
-        fail ArgumentError, 'invalid value for "order", must be greater than or equal to 1.'
-      end
-
-      @order = order
+      @rate_cards = rate_cards
     end
 
     # Checks equality by comparing each attribute.
@@ -183,10 +119,8 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          name == o.name &&
-          rate == o.rate &&
-          order == o.order &&
-          usage_meters == o.usage_meters
+          pricing_cycle_config == o.pricing_cycle_config &&
+          rate_cards == o.rate_cards
     end
 
     # @see the `==` method
@@ -198,7 +132,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, rate, order, usage_meters].hash
+      [pricing_cycle_config, rate_cards].hash
     end
 
     # Builds the object from hash

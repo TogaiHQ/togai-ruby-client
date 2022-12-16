@@ -14,41 +14,17 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  class RateCardBundle
-    attr_accessor :rate_strategy
+  # Contains all rate related configurations
+  class RateConfigUsage
+    attr_accessor :usage_meter_name
 
-    attr_accessor :slab_strategy
-
-    attr_accessor :bundles
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :slabs
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'rate_strategy' => :'rateStrategy',
-        :'slab_strategy' => :'slabStrategy',
-        :'bundles' => :'bundles'
+        :'usage_meter_name' => :'usageMeterName',
+        :'slabs' => :'slabs'
       }
     end
 
@@ -60,9 +36,8 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'rate_strategy' => :'String',
-        :'slab_strategy' => :'String',
-        :'bundles' => :'Array<BundleStrategy>'
+        :'usage_meter_name' => :'String',
+        :'slabs' => :'Array<SlabUsage>'
       }
     end
 
@@ -76,28 +51,24 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::RateCardBundle` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::RateConfigUsage` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::RateCardBundle`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::RateConfigUsage`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'rate_strategy')
-        self.rate_strategy = attributes[:'rate_strategy']
+      if attributes.key?(:'usage_meter_name')
+        self.usage_meter_name = attributes[:'usage_meter_name']
       end
 
-      if attributes.key?(:'slab_strategy')
-        self.slab_strategy = attributes[:'slab_strategy']
-      end
-
-      if attributes.key?(:'bundles')
-        if (value = attributes[:'bundles']).is_a?(Array)
-          self.bundles = value
+      if attributes.key?(:'slabs')
+        if (value = attributes[:'slabs']).is_a?(Array)
+          self.slabs = value
         end
       end
     end
@@ -106,24 +77,16 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @rate_strategy.nil?
-        invalid_properties.push('invalid value for "rate_strategy", rate_strategy cannot be nil.')
+      if @usage_meter_name.nil?
+        invalid_properties.push('invalid value for "usage_meter_name", usage_meter_name cannot be nil.')
       end
 
-      if @slab_strategy.nil?
-        invalid_properties.push('invalid value for "slab_strategy", slab_strategy cannot be nil.')
+      if @slabs.nil?
+        invalid_properties.push('invalid value for "slabs", slabs cannot be nil.')
       end
 
-      if @bundles.nil?
-        invalid_properties.push('invalid value for "bundles", bundles cannot be nil.')
-      end
-
-      if @bundles.length > 10
-        invalid_properties.push('invalid value for "bundles", number of items must be less than or equal to 10.')
-      end
-
-      if @bundles.length < 1
-        invalid_properties.push('invalid value for "bundles", number of items must be greater than or equal to 1.')
+      if @slabs.length < 1
+        invalid_properties.push('invalid value for "slabs", number of items must be greater than or equal to 1.')
       end
 
       invalid_properties
@@ -132,54 +95,24 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @rate_strategy.nil?
-      rate_strategy_validator = EnumAttributeValidator.new('String', ["FLAT"])
-      return false unless rate_strategy_validator.valid?(@rate_strategy)
-      return false if @slab_strategy.nil?
-      slab_strategy_validator = EnumAttributeValidator.new('String', ["TIER"])
-      return false unless slab_strategy_validator.valid?(@slab_strategy)
-      return false if @bundles.nil?
-      return false if @bundles.length > 10
-      return false if @bundles.length < 1
+      return false if @usage_meter_name.nil?
+      return false if @slabs.nil?
+      return false if @slabs.length < 1
       true
     end
 
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] rate_strategy Object to be assigned
-    def rate_strategy=(rate_strategy)
-      validator = EnumAttributeValidator.new('String', ["FLAT"])
-      unless validator.valid?(rate_strategy)
-        fail ArgumentError, "invalid value for \"rate_strategy\", must be one of #{validator.allowable_values}."
-      end
-      @rate_strategy = rate_strategy
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] slab_strategy Object to be assigned
-    def slab_strategy=(slab_strategy)
-      validator = EnumAttributeValidator.new('String', ["TIER"])
-      unless validator.valid?(slab_strategy)
-        fail ArgumentError, "invalid value for \"slab_strategy\", must be one of #{validator.allowable_values}."
-      end
-      @slab_strategy = slab_strategy
-    end
-
     # Custom attribute writer method with validation
-    # @param [Object] bundles Value to be assigned
-    def bundles=(bundles)
-      if bundles.nil?
-        fail ArgumentError, 'bundles cannot be nil'
+    # @param [Object] slabs Value to be assigned
+    def slabs=(slabs)
+      if slabs.nil?
+        fail ArgumentError, 'slabs cannot be nil'
       end
 
-      if bundles.length > 10
-        fail ArgumentError, 'invalid value for "bundles", number of items must be less than or equal to 10.'
+      if slabs.length < 1
+        fail ArgumentError, 'invalid value for "slabs", number of items must be greater than or equal to 1.'
       end
 
-      if bundles.length < 1
-        fail ArgumentError, 'invalid value for "bundles", number of items must be greater than or equal to 1.'
-      end
-
-      @bundles = bundles
+      @slabs = slabs
     end
 
     # Checks equality by comparing each attribute.
@@ -187,9 +120,8 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          rate_strategy == o.rate_strategy &&
-          slab_strategy == o.slab_strategy &&
-          bundles == o.bundles
+          usage_meter_name == o.usage_meter_name &&
+          slabs == o.slabs
     end
 
     # @see the `==` method
@@ -201,7 +133,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [rate_strategy, slab_strategy, bundles].hash
+      [usage_meter_name, slabs].hash
     end
 
     # Builds the object from hash

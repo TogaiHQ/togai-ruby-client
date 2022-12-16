@@ -4,7 +4,7 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **data** | [**Array&lt;PricePlanListData&gt;**](PricePlanListData.md) |  | [optional] |
+| **data** | [**Array&lt;PricePlanListData&gt;**](PricePlanListData.md) |  |  |
 | **next_token** | **String** |  | [optional] |
 | **context** | [**PaginationOptions**](PaginationOptions.md) |  | [optional] |
 

@@ -91,11 +91,6 @@ module TogaiClient
         invalid_properties.push('invalid value for "name", the character length must be smaller than or equal to 50.')
       end
 
-      pattern = Regexp.new(/^[_a-zA-Z0-9-\s]{3,50}$/)
-      if @name !~ pattern
-        invalid_properties.push("invalid value for \"name\", must conform to the pattern #{pattern}.")
-      end
-
       if !@description.nil? && @description.to_s.length > 500
         invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 500.')
       end
@@ -112,7 +107,6 @@ module TogaiClient
     def valid?
       return false if @name.nil?
       return false if @name.to_s.length > 50
-      return false if @name !~ Regexp.new(/^[_a-zA-Z0-9-\s]{3,50}$/)
       return false if !@description.nil? && @description.to_s.length > 500
       return false if @user_details.nil?
       true
@@ -127,11 +121,6 @@ module TogaiClient
 
       if name.to_s.length > 50
         fail ArgumentError, 'invalid value for "name", the character length must be smaller than or equal to 50.'
-      end
-
-      pattern = Regexp.new(/^[_a-zA-Z0-9-\s]{3,50}$/)
-      if name !~ pattern
-        fail ArgumentError, "invalid value for \"name\", must conform to the pattern #{pattern}."
       end
 
       @name = name

@@ -25,13 +25,10 @@ module TogaiClient
     # Status of Price plan
     attr_accessor :status
 
-    attr_accessor :pricing_cycle
-
     # Usage meters name linked to the price plan
     attr_accessor :usage_meters
 
-    # Pricing type of the price plan
-    attr_accessor :pricing_type
+    attr_accessor :price_plan_details
 
     attr_accessor :created_at
 
@@ -65,9 +62,8 @@ module TogaiClient
         :'name' => :'name',
         :'description' => :'description',
         :'status' => :'status',
-        :'pricing_cycle' => :'pricingCycle',
         :'usage_meters' => :'usageMeters',
-        :'pricing_type' => :'pricingType',
+        :'price_plan_details' => :'pricePlanDetails',
         :'created_at' => :'createdAt',
         :'updated_at' => :'updatedAt'
       }
@@ -84,9 +80,8 @@ module TogaiClient
         :'name' => :'String',
         :'description' => :'String',
         :'status' => :'String',
-        :'pricing_cycle' => :'PricingCycle',
         :'usage_meters' => :'Array<String>',
-        :'pricing_type' => :'String',
+        :'price_plan_details' => :'PricePlanDetails',
         :'created_at' => :'Time',
         :'updated_at' => :'Time'
       }
@@ -125,18 +120,14 @@ module TogaiClient
         self.status = attributes[:'status']
       end
 
-      if attributes.key?(:'pricing_cycle')
-        self.pricing_cycle = attributes[:'pricing_cycle']
-      end
-
       if attributes.key?(:'usage_meters')
         if (value = attributes[:'usage_meters']).is_a?(Array)
           self.usage_meters = value
         end
       end
 
-      if attributes.key?(:'pricing_type')
-        self.pricing_type = attributes[:'pricing_type']
+      if attributes.key?(:'price_plan_details')
+        self.price_plan_details = attributes[:'price_plan_details']
       end
 
       if attributes.key?(:'created_at')
@@ -168,16 +159,12 @@ module TogaiClient
         invalid_properties.push('invalid value for "status", status cannot be nil.')
       end
 
-      if @pricing_cycle.nil?
-        invalid_properties.push('invalid value for "pricing_cycle", pricing_cycle cannot be nil.')
-      end
-
       if @usage_meters.nil?
         invalid_properties.push('invalid value for "usage_meters", usage_meters cannot be nil.')
       end
 
-      if @pricing_type.nil?
-        invalid_properties.push('invalid value for "pricing_type", pricing_type cannot be nil.')
+      if @price_plan_details.nil?
+        invalid_properties.push('invalid value for "price_plan_details", price_plan_details cannot be nil.')
       end
 
       if @created_at.nil?
@@ -200,9 +187,8 @@ module TogaiClient
       return false if @status.nil?
       status_validator = EnumAttributeValidator.new('String', ["DRAFT", "ACTIVE", "ARCHIVED"])
       return false unless status_validator.valid?(@status)
-      return false if @pricing_cycle.nil?
       return false if @usage_meters.nil?
-      return false if @pricing_type.nil?
+      return false if @price_plan_details.nil?
       return false if @created_at.nil?
       return false if @updated_at.nil?
       true
@@ -250,9 +236,8 @@ module TogaiClient
           name == o.name &&
           description == o.description &&
           status == o.status &&
-          pricing_cycle == o.pricing_cycle &&
           usage_meters == o.usage_meters &&
-          pricing_type == o.pricing_type &&
+          price_plan_details == o.price_plan_details &&
           created_at == o.created_at &&
           updated_at == o.updated_at
     end
@@ -266,7 +251,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, description, status, pricing_cycle, usage_meters, pricing_type, created_at, updated_at].hash
+      [name, description, status, usage_meters, price_plan_details, created_at, updated_at].hash
     end
 
     # Builds the object from hash

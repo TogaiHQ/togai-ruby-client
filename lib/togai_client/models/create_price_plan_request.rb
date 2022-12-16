@@ -22,17 +22,14 @@ module TogaiClient
     # Description of price plan
     attr_accessor :description
 
-    attr_accessor :pricing_cycle
-
-    attr_accessor :rate_card
+    attr_accessor :price_plan_details
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
         :'name' => :'name',
         :'description' => :'description',
-        :'pricing_cycle' => :'pricingCycle',
-        :'rate_card' => :'rateCard'
+        :'price_plan_details' => :'pricePlanDetails'
       }
     end
 
@@ -46,8 +43,7 @@ module TogaiClient
       {
         :'name' => :'String',
         :'description' => :'String',
-        :'pricing_cycle' => :'PricingCycle',
-        :'rate_card' => :'RateCard'
+        :'price_plan_details' => :'PricePlanDetails'
       }
     end
 
@@ -80,12 +76,8 @@ module TogaiClient
         self.description = attributes[:'description']
       end
 
-      if attributes.key?(:'pricing_cycle')
-        self.pricing_cycle = attributes[:'pricing_cycle']
-      end
-
-      if attributes.key?(:'rate_card')
-        self.rate_card = attributes[:'rate_card']
+      if attributes.key?(:'price_plan_details')
+        self.price_plan_details = attributes[:'price_plan_details']
       end
     end
 
@@ -105,12 +97,8 @@ module TogaiClient
         invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 255.')
       end
 
-      if @pricing_cycle.nil?
-        invalid_properties.push('invalid value for "pricing_cycle", pricing_cycle cannot be nil.')
-      end
-
-      if @rate_card.nil?
-        invalid_properties.push('invalid value for "rate_card", rate_card cannot be nil.')
+      if @price_plan_details.nil?
+        invalid_properties.push('invalid value for "price_plan_details", price_plan_details cannot be nil.')
       end
 
       invalid_properties
@@ -122,8 +110,7 @@ module TogaiClient
       return false if @name.nil?
       return false if @name.to_s.length > 50
       return false if !@description.nil? && @description.to_s.length > 255
-      return false if @pricing_cycle.nil?
-      return false if @rate_card.nil?
+      return false if @price_plan_details.nil?
       true
     end
 
@@ -158,8 +145,7 @@ module TogaiClient
       self.class == o.class &&
           name == o.name &&
           description == o.description &&
-          pricing_cycle == o.pricing_cycle &&
-          rate_card == o.rate_card
+          price_plan_details == o.price_plan_details
     end
 
     # @see the `==` method
@@ -171,7 +157,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, description, pricing_cycle, rate_card].hash
+      [name, description, price_plan_details].hash
     end
 
     # Builds the object from hash

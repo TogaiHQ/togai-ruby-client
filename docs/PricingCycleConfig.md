@@ -1,4 +1,4 @@
-# TogaiClient::PricingCycle
+# TogaiClient::PricingCycleConfig
 
 ## Properties
 
@@ -6,7 +6,7 @@
 | ---- | ---- | ----------- | ----- |
 | **interval** | **String** |  |  |
 | **start_type** | **String** |  |  |
-| **start_offset** | [**PricingCycleStartOffset**](PricingCycleStartOffset.md) |  |  |
+| **start_offset** | [**PricingCycleConfigStartOffset**](PricingCycleConfigStartOffset.md) |  |  |
 | **grace_period** | **Integer** |  |  |
 
 ## Example
@@ -14,7 +14,7 @@
 ```ruby
 require 'togai_client'
 
-instance = TogaiClient::PricingCycle.new(
+instance = TogaiClient::PricingCycleConfig.new(
   interval: null,
   start_type: null,
   start_offset: null,

@@ -7,7 +7,6 @@
 | **name** | **String** | Name of the price plan |  |
 | **description** | **String** | Description of price plan | [optional] |
 | **status** | **String** | Status of Price plan |  |
-| **pricing_cycle** | [**PricingCycle**](PricingCycle.md) |  |  |
 | **pricing_schedule** | [**Array&lt;PricingSchedule&gt;**](PricingSchedule.md) |  |  |
 
 ## Example
@@ -19,7 +18,6 @@ instance = TogaiClient::PricePlan.new(
   name: null,
   description: null,
   status: null,
-  pricing_cycle: null,
   pricing_schedule: null
 )
 ```

@@ -16,7 +16,7 @@ require 'time'
 module TogaiClient
   # Represents effectiveness period and config of a price plan. i.e, price plan bound by time.
   class PricingSchedule
-    attr_accessor :rate_payload
+    attr_accessor :price_plan_details
 
     attr_accessor :start_date
 
@@ -25,7 +25,7 @@ module TogaiClient
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'rate_payload' => :'ratePayload',
+        :'price_plan_details' => :'pricePlanDetails',
         :'start_date' => :'startDate',
         :'end_date' => :'endDate'
       }
@@ -39,7 +39,7 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'rate_payload' => :'RateCard',
+        :'price_plan_details' => :'PricePlanDetails',
         :'start_date' => :'Time',
         :'end_date' => :'Time'
       }
@@ -66,8 +66,8 @@ module TogaiClient
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'rate_payload')
-        self.rate_payload = attributes[:'rate_payload']
+      if attributes.key?(:'price_plan_details')
+        self.price_plan_details = attributes[:'price_plan_details']
       end
 
       if attributes.key?(:'start_date')
@@ -107,7 +107,7 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          rate_payload == o.rate_payload &&
+          price_plan_details == o.price_plan_details &&
           start_date == o.start_date &&
           end_date == o.end_date
     end
@@ -121,7 +121,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [rate_payload, start_date, end_date].hash
+      [price_plan_details, start_date, end_date].hash
     end
 
     # Builds the object from hash

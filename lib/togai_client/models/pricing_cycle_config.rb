@@ -14,20 +14,45 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Represents a pricing strategy (rates + slabs) for usage price plan
-  class UsageStrategy
-    attr_accessor :rate
+  # Represents configurations related to pricing cycle
+  class PricingCycleConfig
+    attr_accessor :interval
 
-    attr_accessor :start_after
+    attr_accessor :start_type
 
-    attr_accessor :order
+    attr_accessor :start_offset
+
+    attr_accessor :grace_period
+
+    class EnumAttributeValidator
+      attr_reader :datatype
+      attr_reader :allowable_values
+
+      def initialize(datatype, allowable_values)
+        @allowable_values = allowable_values.map do |value|
+          case datatype.to_s
+          when /Integer/i
+            value.to_i
+          when /Float/i
+            value.to_f
+          else
+            value
+          end
+        end
+      end
+
+      def valid?(value)
+        !value || allowable_values.include?(value)
+      end
+    end
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'rate' => :'rate',
-        :'start_after' => :'startAfter',
-        :'order' => :'order'
+        :'interval' => :'interval',
+        :'start_type' => :'startType',
+        :'start_offset' => :'startOffset',
+        :'grace_period' => :'gracePeriod'
       }
     end
 
@@ -39,9 +64,10 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'rate' => :'Float',
-        :'start_after' => :'Float',
-        :'order' => :'Integer'
+        :'interval' => :'String',
+        :'start_type' => :'String',
+        :'start_offset' => :'PricingCycleConfigStartOffset',
+        :'grace_period' => :'Integer'
       }
     end
 
@@ -55,27 +81,31 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::UsageStrategy` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::PricingCycleConfig` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::UsageStrategy`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::PricingCycleConfig`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'rate')
-        self.rate = attributes[:'rate']
+      if attributes.key?(:'interval')
+        self.interval = attributes[:'interval']
       end
 
-      if attributes.key?(:'start_after')
-        self.start_after = attributes[:'start_after']
+      if attributes.key?(:'start_type')
+        self.start_type = attributes[:'start_type']
       end
 
-      if attributes.key?(:'order')
-        self.order = attributes[:'order']
+      if attributes.key?(:'start_offset')
+        self.start_offset = attributes[:'start_offset']
+      end
+
+      if attributes.key?(:'grace_period')
+        self.grace_period = attributes[:'grace_period']
       end
     end
 
@@ -83,24 +113,20 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @rate.nil?
-        invalid_properties.push('invalid value for "rate", rate cannot be nil.')
+      if @interval.nil?
+        invalid_properties.push('invalid value for "interval", interval cannot be nil.')
       end
 
-      if @start_after.nil?
-        invalid_properties.push('invalid value for "start_after", start_after cannot be nil.')
+      if @start_type.nil?
+        invalid_properties.push('invalid value for "start_type", start_type cannot be nil.')
       end
 
-      if @order.nil?
-        invalid_properties.push('invalid value for "order", order cannot be nil.')
+      if @start_offset.nil?
+        invalid_properties.push('invalid value for "start_offset", start_offset cannot be nil.')
       end
 
-      if @order > 10
-        invalid_properties.push('invalid value for "order", must be smaller than or equal to 10.')
-      end
-
-      if @order < 1
-        invalid_properties.push('invalid value for "order", must be greater than or equal to 1.')
+      if @grace_period.nil?
+        invalid_properties.push('invalid value for "grace_period", grace_period cannot be nil.')
       end
 
       invalid_properties
@@ -109,30 +135,35 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @rate.nil?
-      return false if @start_after.nil?
-      return false if @order.nil?
-      return false if @order > 10
-      return false if @order < 1
+      return false if @interval.nil?
+      interval_validator = EnumAttributeValidator.new('String', ["MONTHLY", "QUARTERLY", "HALF_YEARLY", "ANNUALLY"])
+      return false unless interval_validator.valid?(@interval)
+      return false if @start_type.nil?
+      start_type_validator = EnumAttributeValidator.new('String', ["STATIC"])
+      return false unless start_type_validator.valid?(@start_type)
+      return false if @start_offset.nil?
+      return false if @grace_period.nil?
       true
     end
 
-    # Custom attribute writer method with validation
-    # @param [Object] order Value to be assigned
-    def order=(order)
-      if order.nil?
-        fail ArgumentError, 'order cannot be nil'
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] interval Object to be assigned
+    def interval=(interval)
+      validator = EnumAttributeValidator.new('String', ["MONTHLY", "QUARTERLY", "HALF_YEARLY", "ANNUALLY"])
+      unless validator.valid?(interval)
+        fail ArgumentError, "invalid value for \"interval\", must be one of #{validator.allowable_values}."
       end
+      @interval = interval
+    end
 
-      if order > 10
-        fail ArgumentError, 'invalid value for "order", must be smaller than or equal to 10.'
+    # Custom attribute writer method checking allowed values (enum).
+    # @param [Object] start_type Object to be assigned
+    def start_type=(start_type)
+      validator = EnumAttributeValidator.new('String', ["STATIC"])
+      unless validator.valid?(start_type)
+        fail ArgumentError, "invalid value for \"start_type\", must be one of #{validator.allowable_values}."
       end
-
-      if order < 1
-        fail ArgumentError, 'invalid value for "order", must be greater than or equal to 1.'
-      end
-
-      @order = order
+      @start_type = start_type
     end
 
     # Checks equality by comparing each attribute.
@@ -140,9 +171,10 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          rate == o.rate &&
-          start_after == o.start_after &&
-          order == o.order
+          interval == o.interval &&
+          start_type == o.start_type &&
+          start_offset == o.start_offset &&
+          grace_period == o.grace_period
     end
 
     # @see the `==` method
@@ -154,7 +186,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [rate, start_after, order].hash
+      [interval, start_type, start_offset, grace_period].hash
     end
 
     # Builds the object from hash

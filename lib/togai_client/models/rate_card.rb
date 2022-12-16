@@ -14,42 +14,19 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Represents a rate card
   class RateCard
-    attr_accessor :type
+    attr_accessor :display_name
 
-    attr_accessor :usage_config
+    attr_accessor :pricing_model
 
-    attr_accessor :bundle_config
-
-    class EnumAttributeValidator
-      attr_reader :datatype
-      attr_reader :allowable_values
-
-      def initialize(datatype, allowable_values)
-        @allowable_values = allowable_values.map do |value|
-          case datatype.to_s
-          when /Integer/i
-            value.to_i
-          when /Float/i
-            value.to_f
-          else
-            value
-          end
-        end
-      end
-
-      def valid?(value)
-        !value || allowable_values.include?(value)
-      end
-    end
+    attr_accessor :rate_config
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'type' => :'type',
-        :'usage_config' => :'usageConfig',
-        :'bundle_config' => :'bundleConfig'
+        :'display_name' => :'displayName',
+        :'pricing_model' => :'pricingModel',
+        :'rate_config' => :'rateConfig'
       }
     end
 
@@ -61,9 +38,9 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'type' => :'String',
-        :'usage_config' => :'Hash<String, RateCardUsageValue>',
-        :'bundle_config' => :'RateCardBundle'
+        :'display_name' => :'String',
+        :'pricing_model' => :'PricingModel',
+        :'rate_config' => :'RateConfigUsage'
       }
     end
 
@@ -88,18 +65,16 @@ module TogaiClient
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'type')
-        self.type = attributes[:'type']
+      if attributes.key?(:'display_name')
+        self.display_name = attributes[:'display_name']
       end
 
-      if attributes.key?(:'usage_config')
-        if (value = attributes[:'usage_config']).is_a?(Hash)
-          self.usage_config = value
-        end
+      if attributes.key?(:'pricing_model')
+        self.pricing_model = attributes[:'pricing_model']
       end
 
-      if attributes.key?(:'bundle_config')
-        self.bundle_config = attributes[:'bundle_config']
+      if attributes.key?(:'rate_config')
+        self.rate_config = attributes[:'rate_config']
       end
     end
 
@@ -107,8 +82,16 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @type.nil?
-        invalid_properties.push('invalid value for "type", type cannot be nil.')
+      if @display_name.nil?
+        invalid_properties.push('invalid value for "display_name", display_name cannot be nil.')
+      end
+
+      if @pricing_model.nil?
+        invalid_properties.push('invalid value for "pricing_model", pricing_model cannot be nil.')
+      end
+
+      if @rate_config.nil?
+        invalid_properties.push('invalid value for "rate_config", rate_config cannot be nil.')
       end
 
       invalid_properties
@@ -117,20 +100,10 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @type.nil?
-      type_validator = EnumAttributeValidator.new('String', ["USAGE", "BUNDLE"])
-      return false unless type_validator.valid?(@type)
+      return false if @display_name.nil?
+      return false if @pricing_model.nil?
+      return false if @rate_config.nil?
       true
-    end
-
-    # Custom attribute writer method checking allowed values (enum).
-    # @param [Object] type Object to be assigned
-    def type=(type)
-      validator = EnumAttributeValidator.new('String', ["USAGE", "BUNDLE"])
-      unless validator.valid?(type)
-        fail ArgumentError, "invalid value for \"type\", must be one of #{validator.allowable_values}."
-      end
-      @type = type
     end
 
     # Checks equality by comparing each attribute.
@@ -138,9 +111,9 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          type == o.type &&
-          usage_config == o.usage_config &&
-          bundle_config == o.bundle_config
+          display_name == o.display_name &&
+          pricing_model == o.pricing_model &&
+          rate_config == o.rate_config
     end
 
     # @see the `==` method
@@ -152,7 +125,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [type, usage_config, bundle_config].hash
+      [display_name, pricing_model, rate_config].hash
     end
 
     # Builds the object from hash

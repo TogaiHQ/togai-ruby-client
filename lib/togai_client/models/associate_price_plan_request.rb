@@ -25,7 +25,7 @@ module TogaiClient
     # Date until which the association must be effective. - Expected only if effectiveFrom is present. 
     attr_accessor :effective_until
 
-    attr_accessor :rate_card_override
+    attr_accessor :price_plan_details_override
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
@@ -33,7 +33,7 @@ module TogaiClient
         :'price_plan_name' => :'pricePlanName',
         :'effective_from' => :'effectiveFrom',
         :'effective_until' => :'effectiveUntil',
-        :'rate_card_override' => :'rateCardOverride'
+        :'price_plan_details_override' => :'pricePlanDetailsOverride'
       }
     end
 
@@ -48,7 +48,7 @@ module TogaiClient
         :'price_plan_name' => :'String',
         :'effective_from' => :'Date',
         :'effective_until' => :'Date',
-        :'rate_card_override' => :'RateCard'
+        :'price_plan_details_override' => :'PricePlanDetailsOverride'
       }
     end
 
@@ -85,8 +85,8 @@ module TogaiClient
         self.effective_until = attributes[:'effective_until']
       end
 
-      if attributes.key?(:'rate_card_override')
-        self.rate_card_override = attributes[:'rate_card_override']
+      if attributes.key?(:'price_plan_details_override')
+        self.price_plan_details_override = attributes[:'price_plan_details_override']
       end
     end
 
@@ -102,6 +102,14 @@ module TogaiClient
         invalid_properties.push('invalid value for "price_plan_name", the character length must be smaller than or equal to 50.')
       end
 
+      if @effective_from.nil?
+        invalid_properties.push('invalid value for "effective_from", effective_from cannot be nil.')
+      end
+
+      if @effective_until.nil?
+        invalid_properties.push('invalid value for "effective_until", effective_until cannot be nil.')
+      end
+
       invalid_properties
     end
 
@@ -110,6 +118,8 @@ module TogaiClient
     def valid?
       return false if @price_plan_name.nil?
       return false if @price_plan_name.to_s.length > 50
+      return false if @effective_from.nil?
+      return false if @effective_until.nil?
       true
     end
 
@@ -135,7 +145,7 @@ module TogaiClient
           price_plan_name == o.price_plan_name &&
           effective_from == o.effective_from &&
           effective_until == o.effective_until &&
-          rate_card_override == o.rate_card_override
+          price_plan_details_override == o.price_plan_details_override
     end
 
     # @see the `==` method
@@ -147,7 +157,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [price_plan_name, effective_from, effective_until, rate_card_override].hash
+      [price_plan_name, effective_from, effective_until, price_plan_details_override].hash
     end
 
     # Builds the object from hash

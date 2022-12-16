@@ -14,13 +14,17 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  class BundleStrategyUsageMetersValue
-    attr_accessor :start_after
+  # TODO
+  class RateConfigBundle
+    attr_accessor :usage_meter_name
+
+    attr_accessor :slab
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'start_after' => :'startAfter'
+        :'usage_meter_name' => :'usageMeterName',
+        :'slab' => :'slab'
       }
     end
 
@@ -32,7 +36,8 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'start_after' => :'Float'
+        :'usage_meter_name' => :'String',
+        :'slab' => :'SlabBundle'
       }
     end
 
@@ -46,19 +51,23 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::BundleStrategyUsageMetersValue` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::RateConfigBundle` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::BundleStrategyUsageMetersValue`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::RateConfigBundle`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'start_after')
-        self.start_after = attributes[:'start_after']
+      if attributes.key?(:'usage_meter_name')
+        self.usage_meter_name = attributes[:'usage_meter_name']
+      end
+
+      if attributes.key?(:'slab')
+        self.slab = attributes[:'slab']
       end
     end
 
@@ -66,8 +75,12 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @start_after.nil?
-        invalid_properties.push('invalid value for "start_after", start_after cannot be nil.')
+      if @usage_meter_name.nil?
+        invalid_properties.push('invalid value for "usage_meter_name", usage_meter_name cannot be nil.')
+      end
+
+      if @slab.nil?
+        invalid_properties.push('invalid value for "slab", slab cannot be nil.')
       end
 
       invalid_properties
@@ -76,7 +89,8 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @start_after.nil?
+      return false if @usage_meter_name.nil?
+      return false if @slab.nil?
       true
     end
 
@@ -85,7 +99,8 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          start_after == o.start_after
+          usage_meter_name == o.usage_meter_name &&
+          slab == o.slab
     end
 
     # @see the `==` method
@@ -97,7 +112,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [start_after].hash
+      [usage_meter_name, slab].hash
     end
 
     # Builds the object from hash

@@ -14,19 +14,23 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Represents the start of pricing cycle in terms of  - dayOffset - number of days from beginning of month and  - monthOffset - number of months from beginning of interval (quarter, half-year or year) Note: If a day with offset doesn't exist for a month, closest previous day is considered Examples: MONTHLY -   - {dayOffset: 1, monthOffset: NIL} - First day of every month   - {dayOffset: 12, monthOffset: NIL} - 12th of every month   - {dayOffset: 28, monthOffset: NIL} - 28th of every month. i.e, 28th of Jan, 28th of Feb, ...   - {dayOffset: 30, monthOffset: NIL} - 30th of every month. i.e, 28th of Jan, 28th of Feb, ...   - {dayOffset: LAST, monthOffset: NIL} - Last day of every month. i.e, 31st of Jan, 28th of Feb, ... QUARTERLY   - {dayOffset: 15, monthOffset: FIRST} - 15th Jan, 15th Apr, 15th Jul and 15th Oct   - {dayOffset: 15, monthOffset: 2} - 15th Feb, 15th May, 15th Aug and 15th Nov   - {dayOffset: 15, monthOffset: LAST} - 15th Mar, 15th Jun, 15th Sep and 15th Dec   - {dayOffset: LAST, monthOffset: FIRST} - 31st Jan, 30th Apr, 30th Jul and 31th Oct HALF_YEARLY   - {dayOffset: 15, monthOffset: FIRST} - 15th Jan and 15th Jul   - {dayOffset: 15, monthOffset: 4} - 15th Apr and 15th Oct   - {dayOffset: 15, monthOffset: LAST} - 15th Jun and 15th Dec ANNUALLY   - {dayOffset: 15, monthOffset: FIRST} - 15th Jan   - {dayOffset: 15, monthOffset: 1} - 15th Jan   - {dayOffset: LAST, monthOffset: 2} - 29th Feb on Leap year, 28th otherwise    - {dayOffset: 15, monthOffset: 8} - 15th Aug   - {dayOffset: 15, monthOffset: LAST} - 15th Dec 
-  class PricingCycleStartOffset
-    # min: \"1\" and max: \"31\" as strings. Spl. string allowed: LAST 
-    attr_accessor :day_offset
+  # TODO
+  class SlabBundle
+    attr_accessor :rate
 
-    # min: \"1\" and max: \"12\". Spl. string allowed: FIRST / LAST. For QUARTERLY only 1 - 3 is allowed and for HALF_YEARLY 1 - 6. This being an optional field, shouldn't be passed for MONTHLY. 
-    attr_accessor :month_offset
+    attr_accessor :start_after
+
+    attr_accessor :price_type
+
+    attr_accessor :config
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'day_offset' => :'dayOffset',
-        :'month_offset' => :'monthOffset'
+        :'rate' => :'rate',
+        :'start_after' => :'startAfter',
+        :'price_type' => :'priceType',
+        :'config' => :'config'
       }
     end
 
@@ -38,8 +42,10 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'day_offset' => :'String',
-        :'month_offset' => :'String'
+        :'rate' => :'Float',
+        :'start_after' => :'Float',
+        :'price_type' => :'PriceType',
+        :'config' => :'Hash<String, String>'
       }
     end
 
@@ -53,23 +59,33 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::PricingCycleStartOffset` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::SlabBundle` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::PricingCycleStartOffset`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::SlabBundle`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'day_offset')
-        self.day_offset = attributes[:'day_offset']
+      if attributes.key?(:'rate')
+        self.rate = attributes[:'rate']
       end
 
-      if attributes.key?(:'month_offset')
-        self.month_offset = attributes[:'month_offset']
+      if attributes.key?(:'start_after')
+        self.start_after = attributes[:'start_after']
+      end
+
+      if attributes.key?(:'price_type')
+        self.price_type = attributes[:'price_type']
+      end
+
+      if attributes.key?(:'config')
+        if (value = attributes[:'config']).is_a?(Hash)
+          self.config = value
+        end
       end
     end
 
@@ -77,12 +93,16 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if @day_offset.nil?
-        invalid_properties.push('invalid value for "day_offset", day_offset cannot be nil.')
+      if @rate.nil?
+        invalid_properties.push('invalid value for "rate", rate cannot be nil.')
       end
 
-      if @month_offset.nil?
-        invalid_properties.push('invalid value for "month_offset", month_offset cannot be nil.')
+      if @start_after.nil?
+        invalid_properties.push('invalid value for "start_after", start_after cannot be nil.')
+      end
+
+      if @price_type.nil?
+        invalid_properties.push('invalid value for "price_type", price_type cannot be nil.')
       end
 
       invalid_properties
@@ -91,8 +111,9 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if @day_offset.nil?
-      return false if @month_offset.nil?
+      return false if @rate.nil?
+      return false if @start_after.nil?
+      return false if @price_type.nil?
       true
     end
 
@@ -101,8 +122,10 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          day_offset == o.day_offset &&
-          month_offset == o.month_offset
+          rate == o.rate &&
+          start_after == o.start_after &&
+          price_type == o.price_type &&
+          config == o.config
     end
 
     # @see the `==` method
@@ -114,7 +137,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [day_offset, month_offset].hash
+      [rate, start_after, price_type, config].hash
     end
 
     # Builds the object from hash

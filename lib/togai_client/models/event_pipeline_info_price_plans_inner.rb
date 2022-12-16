@@ -19,6 +19,8 @@ module TogaiClient
 
     attr_accessor :id
 
+    attr_accessor :schedule_id
+
     attr_accessor :cycle_start
 
     attr_accessor :cycle_end
@@ -30,6 +32,7 @@ module TogaiClient
       {
         :'name' => :'name',
         :'id' => :'id',
+        :'schedule_id' => :'scheduleId',
         :'cycle_start' => :'cycleStart',
         :'cycle_end' => :'cycleEnd',
         :'usage_meters' => :'usageMeters'
@@ -46,6 +49,7 @@ module TogaiClient
       {
         :'name' => :'String',
         :'id' => :'String',
+        :'schedule_id' => :'String',
         :'cycle_start' => :'Date',
         :'cycle_end' => :'Date',
         :'usage_meters' => :'Array<String>'
@@ -81,6 +85,10 @@ module TogaiClient
         self.id = attributes[:'id']
       end
 
+      if attributes.key?(:'schedule_id')
+        self.schedule_id = attributes[:'schedule_id']
+      end
+
       if attributes.key?(:'cycle_start')
         self.cycle_start = attributes[:'cycle_start']
       end
@@ -108,6 +116,10 @@ module TogaiClient
         invalid_properties.push('invalid value for "id", id cannot be nil.')
       end
 
+      if @schedule_id.nil?
+        invalid_properties.push('invalid value for "schedule_id", schedule_id cannot be nil.')
+      end
+
       if @cycle_start.nil?
         invalid_properties.push('invalid value for "cycle_start", cycle_start cannot be nil.')
       end
@@ -124,6 +136,7 @@ module TogaiClient
     def valid?
       return false if @name.nil?
       return false if @id.nil?
+      return false if @schedule_id.nil?
       return false if @cycle_start.nil?
       return false if @cycle_end.nil?
       true
@@ -142,6 +155,7 @@ module TogaiClient
       self.class == o.class &&
           name == o.name &&
           id == o.id &&
+          schedule_id == o.schedule_id &&
           cycle_start == o.cycle_start &&
           cycle_end == o.cycle_end &&
           usage_meters == o.usage_meters
@@ -156,7 +170,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [name, id, cycle_start, cycle_end, usage_meters].hash
+      [name, id, schedule_id, cycle_start, cycle_end, usage_meters].hash
     end
 
     # Builds the object from hash

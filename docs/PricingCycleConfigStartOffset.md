@@ -1,4 +1,4 @@
-# TogaiClient::PricingCycleStartOffset
+# TogaiClient::PricingCycleConfigStartOffset
 
 ## Properties
 
@@ -12,7 +12,7 @@
 ```ruby
 require 'togai_client'
 
-instance = TogaiClient::PricingCycleStartOffset.new(
+instance = TogaiClient::PricingCycleConfigStartOffset.new(
   day_offset: null,
   month_offset: null
 )

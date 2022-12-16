@@ -113,7 +113,7 @@ module TogaiClient
     # @return true if the model is valid
     def valid?
       return false if @status.nil?
-      status_validator = EnumAttributeValidator.new('String', ["INGESTION_IN_PROGRESS", "INGESTION_FAILED", "INGESTION_FAILED_SCHEMA_NOT_DEFINED", "INGESTION_FAILED_UNITS_INVALID", "INGESTION_COMPLETED_NO_MATCHING_METERS", "INGESTION_COMPLETED_EVENT_METERED", "INGESTION_COMPLETED_EVENT_NOT_METERED", "UNKNOWN"])
+      status_validator = EnumAttributeValidator.new('String', ["INGESTION_IN_PROGRESS", "INGESTION_FAILED", "INGESTION_FAILED_SCHEMA_NOT_DEFINED", "INGESTION_FAILED_UNITS_INVALID", "INGESTION_FAILED_EVENT_INVALID", "INGESTION_COMPLETED_NO_MATCHING_METERS", "INGESTION_COMPLETED_EVENT_METERED", "INGESTION_COMPLETED_EVENT_NOT_METERED", "UNKNOWN"])
       return false unless status_validator.valid?(@status)
       return false if !@status_description.nil? && @status_description.to_s.length > 250
       true
@@ -122,7 +122,7 @@ module TogaiClient
     # Custom attribute writer method checking allowed values (enum).
     # @param [Object] status Object to be assigned
     def status=(status)
-      validator = EnumAttributeValidator.new('String', ["INGESTION_IN_PROGRESS", "INGESTION_FAILED", "INGESTION_FAILED_SCHEMA_NOT_DEFINED", "INGESTION_FAILED_UNITS_INVALID", "INGESTION_COMPLETED_NO_MATCHING_METERS", "INGESTION_COMPLETED_EVENT_METERED", "INGESTION_COMPLETED_EVENT_NOT_METERED", "UNKNOWN"])
+      validator = EnumAttributeValidator.new('String', ["INGESTION_IN_PROGRESS", "INGESTION_FAILED", "INGESTION_FAILED_SCHEMA_NOT_DEFINED", "INGESTION_FAILED_UNITS_INVALID", "INGESTION_FAILED_EVENT_INVALID", "INGESTION_COMPLETED_NO_MATCHING_METERS", "INGESTION_COMPLETED_EVENT_METERED", "INGESTION_COMPLETED_EVENT_NOT_METERED", "UNKNOWN"])
       unless validator.valid?(status)
         fail ArgumentError, "invalid value for \"status\", must be one of #{validator.allowable_values}."
       end

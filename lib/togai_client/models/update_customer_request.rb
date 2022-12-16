@@ -102,10 +102,6 @@ module TogaiClient
         invalid_properties.push('invalid value for "billing_address", the character length must be smaller than or equal to 1000.')
       end
 
-      if !@billing_address.nil? && @billing_address.to_s.length < 50
-        invalid_properties.push('invalid value for "billing_address", the character length must be great than or equal to 50.')
-      end
-
       invalid_properties
     end
 
@@ -116,7 +112,6 @@ module TogaiClient
       return false if !@name.nil? && @name.to_s.length < 3
       return false if !@primary_email.nil? && @primary_email.to_s.length > 255
       return false if !@billing_address.nil? && @billing_address.to_s.length > 1000
-      return false if !@billing_address.nil? && @billing_address.to_s.length < 50
       true
     end
 
@@ -149,10 +144,6 @@ module TogaiClient
     def billing_address=(billing_address)
       if !billing_address.nil? && billing_address.to_s.length > 1000
         fail ArgumentError, 'invalid value for "billing_address", the character length must be smaller than or equal to 1000.'
-      end
-
-      if !billing_address.nil? && billing_address.to_s.length < 50
-        fail ArgumentError, 'invalid value for "billing_address", the character length must be great than or equal to 50.'
       end
 
       @billing_address = billing_address

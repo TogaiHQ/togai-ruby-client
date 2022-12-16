@@ -14,18 +14,16 @@ require 'date'
 require 'time'
 
 module TogaiClient
-  # Request to update a price plan
-  class UpdatePricePlanRequest
-    # Description of price plan
-    attr_accessor :description
+  class PricePlanDetailsOverride
+    attr_accessor :pricing_cycle_config
 
-    attr_accessor :price_plan_details
+    attr_accessor :rate_cards
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'description' => :'description',
-        :'price_plan_details' => :'pricePlanDetails'
+        :'pricing_cycle_config' => :'pricingCycleConfig',
+        :'rate_cards' => :'rateCards'
       }
     end
 
@@ -37,8 +35,8 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'description' => :'String',
-        :'price_plan_details' => :'PricePlanDetailsOverride'
+        :'pricing_cycle_config' => :'PricingCycleConfig',
+        :'rate_cards' => :'Array<RateCard>'
       }
     end
 
@@ -52,23 +50,25 @@ module TogaiClient
     # @param [Hash] attributes Model attributes in the form of hash
     def initialize(attributes = {})
       if (!attributes.is_a?(Hash))
-        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::UpdatePricePlanRequest` initialize method"
+        fail ArgumentError, "The input argument (attributes) must be a hash in `TogaiClient::PricePlanDetailsOverride` initialize method"
       end
 
       # check to see if the attribute exists and convert string to symbol for hash key
       attributes = attributes.each_with_object({}) { |(k, v), h|
         if (!self.class.attribute_map.key?(k.to_sym))
-          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::UpdatePricePlanRequest`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
+          fail ArgumentError, "`#{k}` is not a valid attribute in `TogaiClient::PricePlanDetailsOverride`. Please check the name to make sure it's valid. List of attributes: " + self.class.attribute_map.keys.inspect
         end
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'description')
-        self.description = attributes[:'description']
+      if attributes.key?(:'pricing_cycle_config')
+        self.pricing_cycle_config = attributes[:'pricing_cycle_config']
       end
 
-      if attributes.key?(:'price_plan_details')
-        self.price_plan_details = attributes[:'price_plan_details']
+      if attributes.key?(:'rate_cards')
+        if (value = attributes[:'rate_cards']).is_a?(Array)
+          self.rate_cards = value
+        end
       end
     end
 
@@ -76,8 +76,8 @@ module TogaiClient
     # @return Array for valid properties with the reasons
     def list_invalid_properties
       invalid_properties = Array.new
-      if !@description.nil? && @description.to_s.length > 255
-        invalid_properties.push('invalid value for "description", the character length must be smaller than or equal to 255.')
+      if !@rate_cards.nil? && @rate_cards.length < 1
+        invalid_properties.push('invalid value for "rate_cards", number of items must be greater than or equal to 1.')
       end
 
       invalid_properties
@@ -86,18 +86,18 @@ module TogaiClient
     # Check to see if the all the properties in the model are valid
     # @return true if the model is valid
     def valid?
-      return false if !@description.nil? && @description.to_s.length > 255
+      return false if !@rate_cards.nil? && @rate_cards.length < 1
       true
     end
 
     # Custom attribute writer method with validation
-    # @param [Object] description Value to be assigned
-    def description=(description)
-      if !description.nil? && description.to_s.length > 255
-        fail ArgumentError, 'invalid value for "description", the character length must be smaller than or equal to 255.'
+    # @param [Object] rate_cards Value to be assigned
+    def rate_cards=(rate_cards)
+      if !rate_cards.nil? && rate_cards.length < 1
+        fail ArgumentError, 'invalid value for "rate_cards", number of items must be greater than or equal to 1.'
       end
 
-      @description = description
+      @rate_cards = rate_cards
     end
 
     # Checks equality by comparing each attribute.
@@ -105,8 +105,8 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          description == o.description &&
-          price_plan_details == o.price_plan_details
+          pricing_cycle_config == o.pricing_cycle_config &&
+          rate_cards == o.rate_cards
     end
 
     # @see the `==` method
@@ -118,7 +118,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [description, price_plan_details].hash
+      [pricing_cycle_config, rate_cards].hash
     end
 
     # Builds the object from hash

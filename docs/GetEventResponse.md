@@ -4,7 +4,7 @@
 
 | Name | Type | Description | Notes |
 | ---- | ---- | ----------- | ----- |
-| **events** | [**Array&lt;EventWithStatusAndEventPipelineInfo&gt;**](EventWithStatusAndEventPipelineInfo.md) |  | [optional] |
+| **events** | [**Array&lt;EventWithStatusAndEventPipelineInfo&gt;**](EventWithStatusAndEventPipelineInfo.md) |  |  |
 
 ## Example
 

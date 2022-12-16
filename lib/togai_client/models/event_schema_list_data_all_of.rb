@@ -15,12 +15,12 @@ require 'time'
 
 module TogaiClient
   class EventSchemaListDataAllOf
-    attr_accessor :associated_usage_meters
+    attr_accessor :usage_meters_count
 
     # Attribute mapping from ruby-style variable name to JSON key.
     def self.attribute_map
       {
-        :'associated_usage_meters' => :'associatedUsageMeters'
+        :'usage_meters_count' => :'usageMetersCount'
       }
     end
 
@@ -32,7 +32,7 @@ module TogaiClient
     # Attribute type mapping.
     def self.openapi_types
       {
-        :'associated_usage_meters' => :'Array<String>'
+        :'usage_meters_count' => :'Integer'
       }
     end
 
@@ -57,10 +57,8 @@ module TogaiClient
         h[k.to_sym] = v
       }
 
-      if attributes.key?(:'associated_usage_meters')
-        if (value = attributes[:'associated_usage_meters']).is_a?(Array)
-          self.associated_usage_meters = value
-        end
+      if attributes.key?(:'usage_meters_count')
+        self.usage_meters_count = attributes[:'usage_meters_count']
       end
     end
 
@@ -82,7 +80,7 @@ module TogaiClient
     def ==(o)
       return true if self.equal?(o)
       self.class == o.class &&
-          associated_usage_meters == o.associated_usage_meters
+          usage_meters_count == o.usage_meters_count
     end
 
     # @see the `==` method
@@ -94,7 +92,7 @@ module TogaiClient
     # Calculates hash code according to all attributes.
     # @return [Integer] Hash code
     def hash
-      [associated_usage_meters].hash
+      [usage_meters_count].hash
     end
 
     # Builds the object from hash
